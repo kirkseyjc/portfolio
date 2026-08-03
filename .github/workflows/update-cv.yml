@@ -41,9 +41,7 @@ jobs:
         env:
           GOOGLE_CREDENTIALS_B64: ${{ secrets.GOOGLE_CREDENTIALS_B64 }}
         run: |
-          printf '%s' "$GOOGLE_CREDENTIALS_B64" |
-            base64 --decode >
-            "$RUNNER_TEMP/google-credentials.json"
+          printf '%s' "$GOOGLE_CREDENTIALS_B64" | base64 --decode > "$RUNNER_TEMP/google-credentials.json"
 
       - name: Build CV from Google Doc
         env:
