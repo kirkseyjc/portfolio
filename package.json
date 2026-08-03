@@ -1,0 +1,11 @@
+{
+  "name": "codi-kirksey-personal-website",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:cv": "node scripts/build-cv.mjs"
+  },
+  "dependencies": {
+    "googleapis": "^173.0.0"
+  }
+}

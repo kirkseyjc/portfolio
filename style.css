@@ -1,0 +1,932 @@
+/* --------------------------------------------------
+   Imported web fonts
+-------------------------------------------------- */
+
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:wght@400;600;700&family=Racing+Sans+One&family=Roboto:wght@300;700&family=Roboto+Condensed:ital,wght@0,500;0,700;1,700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap");
+
+
+/* --------------------------------------------------
+   Color and typography variables
+-------------------------------------------------- */
+
+:root {
+  --black: #000000;
+  --soft-black: #171717;
+  --charcoal: #292929;
+
+  /* Pantone 186 C-inspired red */
+  --red-186: #c8102e;
+  --red-dark: #9f0c24;
+
+  --surface: #ffffff;
+  --page-background: #0b0b0b;
+  --text: #252525;
+  --muted-text: #5a5a5a;
+  --border: #d7d7d7;
+
+  --display-font:
+    "Bebas Neue",
+    "Roboto Condensed",
+    "Arial Narrow",
+    Arial,
+    sans-serif;
+
+  --heading-font:
+    "Roboto Condensed",
+    "Arial Narrow",
+    Arial,
+    sans-serif;
+
+  --body-font:
+    "Source Sans 3",
+    Arial,
+    Helvetica,
+    sans-serif;
+
+   --cv-title-font:
+    "Racing Sans One",
+    Arial,
+    sans-serif;
+
+  --cv-heading-font:
+    "Playfair Display",
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  --cv-body-font:
+    "Roboto",
+    Arial,
+    Helvetica,
+    sans-serif;
+  
+}
+
+
+
+
+/* --------------------------------------------------
+   Global settings
+-------------------------------------------------- */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+  background-color: var(--page-background);
+}
+
+body {
+ display: flex;
+  flex-direction: column;
+  width: min(94vw, 56rem);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 2rem;
+
+  background-color: var(--surface);
+  color: var(--text);
+
+  font-family: var(--body-font);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+
+  box-shadow: 0 0 1.875rem rgba(0, 0, 0, 0.65);
+}
+
+
+/* --------------------------------------------------
+   Main page title
+-------------------------------------------------- */
+
+h1 {
+  margin: -2rem -2rem 0;
+  padding: 2.375rem 1.75rem 1.75rem;
+
+  background: linear-gradient(
+    135deg,
+    var(--black) 0%,
+    var(--soft-black) 100%
+  );
+
+  color: #ffffff;
+
+  font-family: var(--display-font);
+  font-size: clamp(3rem, 8vw, 3.5rem);
+  font-weight: 400;
+  line-height: 0.95;
+
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.035em;
+
+  text-shadow: 0.1875rem 0.1875rem 0 rgba(200, 16, 46, 0.45);
+
+  border-bottom: 0.4375rem solid var(--red-186);
+}
+
+
+/* --------------------------------------------------
+   General typography
+-------------------------------------------------- */
+
+h2 {
+  margin-top: 2.625rem;
+  margin-bottom: 1rem;
+  padding: 0.3125rem 0 0.5rem 0.875rem;
+
+  color: var(--black);
+
+  font-family: var(--display-font);
+  font-size: clamp(2rem, 5vw, 2rem);
+  font-weight: 400;
+  line-height: 1;
+
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+
+  border-left: 0.4375rem solid var(--red-186);
+  border-bottom: 0.125rem solid var(--border);
+}
+
+h3 {
+  margin-top: 1.875rem;
+  margin-bottom: 0.75rem;
+
+  color: var(--red-dark);
+
+  font-family: var(--heading-font);
+  font-size: 1.45rem;
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1.2;
+
+  text-transform: uppercase;
+  letter-spacing: 0.015em;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1.125rem;
+
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+strong {
+  color: var(--black);
+  font-weight: 700;
+}
+
+
+/* --------------------------------------------------
+   Links
+-------------------------------------------------- */
+
+a {
+  color: var(--red-dark);
+  font-weight: 700;
+
+  text-decoration-thickness: 0.125rem;
+  text-underline-offset: 0.1875rem;
+
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+a:hover,
+a:focus {
+  color: var(--red-186);
+}
+
+a:focus-visible {
+  outline: 0.1875rem solid var(--red-186);
+  outline-offset: 0.1875rem;
+}
+
+
+/* --------------------------------------------------
+   Standard lists
+-------------------------------------------------- */
+
+ul,
+ol {
+  margin-top: 0.75rem;
+margin-bottom: 1.5rem;
+  padding-left: 1.75rem;
+
+  line-height: 1.8;
+}
+
+li {
+  margin-bottom: 7px;
+}
+
+li::marker {
+  color: var(--red-186);
+  font-weight: 700;
+}
+
+
+/* --------------------------------------------------
+   Navigation
+
+   These rules work with either:
+
+   <nav>
+     <ul>...</ul>
+   </nav>
+
+   or the existing first <ul> directly inside <body>.
+-------------------------------------------------- */
+
+nav,
+body > ul:first-of-type {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 0 -2rem 2.125rem;
+  padding: 0;
+
+  background-color: var(--black);
+
+  text-align: center;
+
+  border-bottom: 1px solid var(--charcoal);
+}
+
+nav ul,
+body > ul:first-of-type {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 0;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+nav li,
+body > ul:first-of-type li {
+  margin: 0;
+  padding: 0;
+}
+
+nav li::marker,
+body > ul:first-of-type li::marker {
+  content: "";
+}
+
+nav a,
+body > ul:first-of-type a {
+  display: block;
+
+  padding: 0.9375rem 1.375rem;
+
+  color: #ffffff;
+
+  font-family: var(--display-font);
+  font-size: 1.3rem;
+  font-weight: 400;
+  line-height: 1;
+
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+
+  border-bottom: 0.25rem solid transparent;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+nav a:hover,
+nav a:focus,
+body > ul:first-of-type a:hover,
+body > ul:first-of-type a:focus {
+  background-color: var(--red-186);
+  color: #ffffff;
+
+  border-bottom-color: #ffffff;
+}
+
+nav a[aria-current="page"] {
+  background-color: var(--red-186);
+  color: #ffffff;
+
+  border-bottom-color: #ffffff;
+}
+
+
+/* --------------------------------------------------
+   All images and linked image previews
+-------------------------------------------------- */
+
+img,
+.pdf-link-image,
+.spotify-link-image,
+.linked-image {
+  display: block;
+
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+
+  margin: 1.625rem auto;
+
+  border: 0.1875rem solid var(--black);
+  border-radius: 0.5rem;
+
+  box-shadow:
+   0.4375rem 0.4375rem 0 var(--red-186),
+   0 0.625rem 1.5rem rgba(0, 0, 0, 0.2);
+}
+
+
+/* --------------------------------------------------
+   Linked image interaction
+-------------------------------------------------- */
+
+.pdf-link-image,
+.spotify-link-image,
+.linked-image {
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.pdf-link-image:hover,
+.spotify-link-image:hover,
+.linked-image:hover {
+  transform: translateY(-0.1875rem);
+
+  box-shadow:
+   0.5625rem 0.5625rem 0 var(--red-186),
+   0 0.875rem 1.875rem rgba(0, 0, 0, 0.28);
+}
+
+
+/* --------------------------------------------------
+   Horizontal rules
+-------------------------------------------------- */
+
+hr {
+  height: 0.25rem;
+  margin: 2.375rem 0;
+
+  background: linear-gradient(
+    to right,
+    var(--red-186),
+    var(--black),
+    var(--red-186)
+  );
+
+  border: 0;
+}
+
+
+/* --------------------------------------------------
+   Text selection
+-------------------------------------------------- */
+
+::selection {
+  background-color: var(--red-186);
+  color: #ffffff;
+}
+
+
+/* --------------------------------------------------
+   Mobile layout
+-------------------------------------------------- */
+
+@media (max-width: 600px) {
+  body {
+    padding: 1.25rem;
+    font-size: 1rem;
+    box-shadow: none;
+  }
+
+  h1 {
+    margin: -1.25rem -1.25rem 0;
+    padding: 1.875rem 1.125rem 1.375rem;
+
+    font-size: clamp(2.25rem, 10vw, 2.75rem);
+  }
+
+  nav,
+  body > ul:first-of-type {
+    margin: 0 -1.25rem 1.75rem;
+  }
+
+  nav,
+  nav ul,
+  body > ul:first-of-type {
+    flex-direction: column;
+  }
+
+  nav li,
+  body > ul:first-of-type li {
+    width: 100%;
+  }
+
+  nav a,
+  body > ul:first-of-type a {
+    width: 100%;
+    padding: 0.8125rem 0.75rem;
+
+    border-bottom: 1px solid var(--charcoal);
+  }
+
+  h2 {
+    margin-top: 2.125rem;
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+  }
+
+  img,
+  .pdf-link-image,
+  .spotify-link-image,
+  .linked-image {
+    width: 100%;
+    max-width: 100%;
+
+    margin: 1.375rem auto;
+
+    border-width: 2px;
+
+    box-shadow:
+      4px 4px 0 var(--red-186),
+      0 8px 18px rgba(0, 0, 0, 0.18);
+  }
+  .interest-grid {
+  flex-direction: column;
+  }
+    .interest-item {
+    width: 100%;
+  }
+}
+
+main {
+  flex: 1;
+  width: 100%;
+  max-width: none;
+  margin: 0 auto;
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+footer {
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+/*--------------------------------------------------
+  Interest Grid
+--------------------------------------------------*/  
+
+.interest-grid {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 2rem;
+}
+
+.interest-item {
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  padding: 1.5rem;
+  background-color: #f0f0f0;
+  border-radius: 0.5rem;
+}
+
+/* --------------------------------------------------
+   Curriculum Vitae
+-------------------------------------------------- */
+
+body.cv-view {
+  display: block;
+  width: 100%;
+  max-width: none;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+
+  background-color: var(--page-background);
+  color: var(--black);
+
+  font-family: var(--cv-body-font);
+  font-size: 10pt;
+  font-weight: 300;
+  line-height: 1.0;
+
+  box-shadow: none;
+}
+
+.cv-view nav,
+.cv-view > ul:first-of-type {
+  margin: 0 0 2.125rem;
+}
+
+.cv-view .cv-page {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 3rem 1.25rem;
+}
+
+.cv-sheet {
+  width: min(100%, 8.5in);
+  min-height: 11in;
+  margin: 0 auto;
+  padding: 0.7in 0.75in;
+
+  background-color: var(--surface);
+  color: var(--black);
+
+  font-family: var(--cv-body-font);
+  font-size: 10pt;
+  font-weight: 300;
+  line-height: 1.1;
+
+  box-shadow: 0 0.3rem 1.4rem rgba(0, 0, 0, 0.25);
+}
+
+
+/* CV title */
+
+.cv-sheet .cv-name {
+  margin: 0;
+  padding: 0;
+
+  background: none;
+  color: var(--black);
+
+  font-family: var(--cv-title-font);
+  font-size: 24pt;
+  font-weight: 400;
+  line-height: 1.05;
+
+  text-align: center;
+  text-transform: none;
+  letter-spacing: normal;
+  text-shadow: none;
+
+  border: 0;
+}
+
+.cv-document-header {
+  margin-bottom: 1.25rem;
+}
+
+.cv-document-header .cv-subtitle +
+.cv-document-header .cv-subtitle {
+  margin-top: 0.15rem;
+}
+
+.cv-sheet .cv-name strong,
+.cv-sheet .cv-subtitle strong {
+  color: inherit;
+  font-weight: inherit;
+}
+
+/* CV subtitle */
+
+.cv-sheet .cv-subtitle {
+  margin: 0.4rem 0 0;
+
+  color: var(--muted-text);
+
+  font-family: var(--cv-heading-font);
+  font-size: 12pt;
+  font-weight: 400;
+  line-height: 1.0;
+
+  text-align: center;
+  text-transform: none;
+  letter-spacing: normal;
+  text-shadow: none;
+
+  white-space: pre-wrap;
+}
+
+
+/* Major CV headings */
+
+.cv-sheet .cv-section-title {
+  margin: 1.4rem 0 0.55rem;
+  padding: 0 0 0.25rem;
+
+  color: var(--red-186);
+
+  font-family: var(--cv-heading-font);
+  font-size: 14pt;
+  font-weight: 700;
+  font-style: normal;
+  line-height: 1.1;
+
+  text-transform: none;
+  letter-spacing: normal;
+
+  border: 0;
+  border-bottom: 1px solid var(--border);
+
+  break-after: avoid;
+}
+
+
+/* CV subheadings */
+
+.cv-sheet .cv-entry-title,
+.cv-sheet .cv-entry-subtitle,
+.cv-sheet .cv-minor-heading {
+  margin: 0.75rem 0 0.12rem;
+  padding: 0;
+
+  color: var(--black);
+
+  font-family: var(--cv-heading-font);
+  font-size: 10pt;
+  font-weight: 600;
+  font-style: normal;
+  line-height: 1.1;
+
+  text-transform: none;
+  letter-spacing: normal;
+
+  border: 0;
+
+  break-after: avoid;
+}
+
+
+/* CV body copy */
+
+.cv-sheet .cv-paragraph {
+  margin: 0.15rem 0 0.3rem;
+
+  color: var(--black);
+
+  font-family: var(--cv-body-font);
+  font-size: 10pt;
+  font-weight: 300;
+  line-height: 1;
+
+  white-space: pre-wrap;
+
+  orphans: 3;
+  widows: 3;
+}
+
+.cv-sheet strong {
+  color: var(--black);
+  font-weight: 700;
+}
+
+/*
+ * Google Docs paragraph indentation
+ */
+
+.cv-sheet .cv-paragraph,
+.cv-sheet .cv-section-title,
+.cv-sheet .cv-entry-title,
+.cv-sheet .cv-entry-subtitle,
+.cv-sheet .cv-minor-heading {
+  margin-inline-start:
+    var(--cv-indent-start, 0pt);
+
+  margin-inline-end:
+    var(--cv-indent-end, 0pt);
+
+  text-indent:
+    var(--cv-text-indent, 0pt);
+}
+
+
+/* CV lists */
+
+.cv-sheet .cv-list {
+  margin: 0.25rem 0 0.55rem;
+  padding: 0;
+
+  color: var(--black);
+
+  font-family: var(--cv-body-font);
+  font-size: 10pt;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.cv-sheet .cv-list li {
+  margin-block: 0.12rem;
+  margin-inline-start:
+    var(--cv-list-indent, 1.35rem);
+
+  padding-inline-start: 0.12rem;
+}
+
+.cv-sheet .cv-list li::marker {
+  color: var(--red-186);
+  font-weight: 700;
+}
+
+/*
+ * Fallback indentation when Google does not return
+ * an explicit indentStart measurement.
+ */
+
+.cv-sheet .cv-list-level-0 {
+  --cv-list-indent: 1.35rem;
+}
+
+.cv-sheet .cv-list-level-1 {
+  --cv-list-indent: 2.6rem;
+}
+
+.cv-sheet .cv-list-level-2 {
+  --cv-list-indent: 3.85rem;
+}
+
+.cv-sheet .cv-list-level-3 {
+  --cv-list-indent: 5.1rem;
+}
+
+
+/* CV links */
+
+.cv-sheet a {
+  color: var(--black);
+  font-weight: inherit;
+
+  text-decoration-color: var(--red-186);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.12em;
+}
+
+.cv-sheet a:hover,
+.cv-sheet a:focus {
+  color: var(--red-186);
+}
+
+
+/* CV tables */
+
+.cv-sheet .cv-table {
+  width: 100%;
+  margin: 0.3rem 0 0.65rem;
+
+  color: var(--black);
+
+  font-family: var(--cv-body-font);
+  font-size: 10pt;
+  font-weight: 300;
+  line-height: 1.1;
+
+  border-collapse: collapse;
+
+  break-inside: avoid;
+}
+
+.cv-sheet .cv-table td {
+  padding: 0.08rem 0.45rem 0.08rem 0;
+  vertical-align: top;
+}
+
+.cv-sheet .cv-table td:last-child {
+  padding-right: 0;
+  text-align: right;
+}
+
+.cv-sheet .cv-table p {
+  margin: 0;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+
+/* CV horizontal rules */
+
+.cv-sheet .cv-horizontal-rule {
+  height: 1px;
+  margin: 0.75rem 0;
+
+  background: var(--border);
+
+  border: 0;
+}
+
+
+/* Source-update note */
+
+.cv-updated {
+  width: min(100%, 8.5in);
+  margin: 0.8rem auto 0;
+
+  color: var(--muted-text);
+
+  font-family: var(--cv-body-font);
+  font-size: 8pt;
+  font-weight: 300;
+  line-height: 1.1;
+
+  text-align: right;
+}
+
+
+/* CV mobile presentation */
+
+@media (max-width: 700px) {
+  body.cv-view {
+    background-color: var(--surface);
+  }
+
+  .cv-view .cv-page {
+    padding: 0;
+  }
+
+  .cv-sheet {
+    min-height: 0;
+    padding: 2rem 1.25rem;
+
+    box-shadow: none;
+  }
+
+  .cv-updated {
+    padding: 0 1.25rem 1.5rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .cv-sheet .cv-table,
+  .cv-sheet .cv-table tbody,
+  .cv-sheet .cv-table tr,
+  .cv-sheet .cv-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .cv-sheet .cv-table td:last-child {
+    margin-top: 0.08rem;
+
+    color: var(--muted-text);
+
+    text-align: left;
+  }
+}
+
+
+/* CV print presentation */
+
+@media print {
+  @page {
+    size: letter;
+    margin: 0.55in;
+  }
+
+  body.cv-view {
+    background-color: #ffffff;
+  }
+
+  .cv-view nav,
+  .cv-view > ul:first-of-type,
+  .cv-site-header,
+  .cv-updated,
+  .cv-view footer {
+    display: none !important;
+  }
+
+  .cv-view .cv-page {
+    padding: 0;
+  }
+
+  .cv-sheet {
+    width: auto;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+
+    box-shadow: none;
+  }
+
+  .cv-sheet a {
+    color: var(--black);
+    text-decoration: none;
+  }
+}

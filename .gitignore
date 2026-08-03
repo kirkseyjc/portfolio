@@ -1,0 +1,5 @@
+node_modules/
+google-credentials.json
+.env
+personal-website.zip
+_site/
