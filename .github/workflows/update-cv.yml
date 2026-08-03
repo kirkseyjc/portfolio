@@ -36,12 +36,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Restore Google credentials
+            - name: Restore Google credentials
         shell: bash
         env:
           GOOGLE_CREDENTIALS_B64: ${{ secrets.GOOGLE_CREDENTIALS_B64 }}
         run: |
+          test -n "$GOOGLE_CREDENTIALS_B64" || { echo "GOOGLE_CREDENTIALS_B64 is unavailable or empty"; exit 1; }
           printf '%s' "$GOOGLE_CREDENTIALS_B64" | base64 --decode > "$RUNNER_TEMP/google-credentials.json"
+          test -s "$RUNNER_TEMP/google-credentials.json" || { echo "Decoded credential file is empty"; exit 1; }
+          node -e "JSON.parse(require('fs').readFileSync(process.env.RUNNER_TEMP + '/google-credentials.json', 'utf8')); console.log('Credential JSON validated')"
 
       - name: Build CV from Google Doc
         env:
