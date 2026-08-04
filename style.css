@@ -43,7 +43,7 @@
     Helvetica,
     sans-serif;
 
-   --cv-title-font:
+  --cv-title-font:
     "Racing Sans One",
     Arial,
     sans-serif;
@@ -79,21 +79,26 @@ html {
 }
 
 body {
- display: flex;
+  display: flex;
   flex-direction: column;
-  width: min(94vw, 56rem);
+
+  width: 100%;
+  max-width: 56rem;
   min-height: 100vh;
+
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1.25rem;
+
+  overflow-wrap: break-word;
 
   background-color: var(--surface);
   color: var(--text);
 
   font-family: var(--body-font);
-  font-size: 1.0625rem;
+  font-size: 1rem;
   line-height: 1.7;
 
-  box-shadow: 0 0 1.875rem rgba(0, 0, 0, 0.65);
+  box-shadow: none;
 }
 
 
@@ -102,8 +107,8 @@ body {
 -------------------------------------------------- */
 
 h1 {
-  margin: -2rem -2rem 0;
-  padding: 2.375rem 1.75rem 1.75rem;
+  margin: -1.25rem -1.25rem 0;
+  padding: 1.875rem 1.125rem 1.375rem;
 
   background: linear-gradient(
     135deg,
@@ -114,7 +119,7 @@ h1 {
   color: #ffffff;
 
   font-family: var(--display-font);
-  font-size: clamp(3rem, 8vw, 3.5rem);
+  font-size: clamp(2.25rem, 10vw, 2.75rem);
   font-weight: 400;
   line-height: 0.95;
 
@@ -133,14 +138,14 @@ h1 {
 -------------------------------------------------- */
 
 h2 {
-  margin-top: 2.625rem;
+  margin-top: 2.125rem;
   margin-bottom: 1rem;
   padding: 0.3125rem 0 0.5rem 0.875rem;
 
   color: var(--black);
 
   font-family: var(--display-font);
-  font-size: clamp(2rem, 5vw, 2rem);
+  font-size: 1.5rem;
   font-weight: 400;
   line-height: 1;
 
@@ -158,7 +163,7 @@ h3 {
   color: var(--red-dark);
 
   font-family: var(--heading-font);
-  font-size: 1.45rem;
+  font-size: 1.25rem;
   font-weight: 700;
   font-style: italic;
   line-height: 1.2;
@@ -216,14 +221,14 @@ a:focus-visible {
 ul,
 ol {
   margin-top: 0.75rem;
-margin-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
   padding-left: 1.75rem;
 
   line-height: 1.8;
 }
 
 li {
-  margin-bottom: 7px;
+  margin-bottom: 0.4375rem;
 }
 
 li::marker {
@@ -247,25 +252,29 @@ li::marker {
 nav,
 body > ul:first-of-type {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  margin: 0 -2rem 2.125rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: nowrap;
+
+  margin: 0 -1.25rem 1.75rem;
   padding: 0;
 
   background-color: var(--black);
 
   text-align: center;
 
-  border-bottom: 1px solid var(--charcoal);
+  border-bottom: 0.0625rem solid var(--charcoal);
 }
 
 nav ul,
 body > ul:first-of-type {
   display: flex;
+  flex-direction: column;
+  width: 100%;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 
   gap: 0;
 
@@ -277,6 +286,7 @@ body > ul:first-of-type {
 
 nav li,
 body > ul:first-of-type li {
+  width: 100%;
   margin: 0;
   padding: 0;
 }
@@ -290,7 +300,10 @@ nav a,
 body > ul:first-of-type a {
   display: block;
 
-  padding: 0.9375rem 1.375rem;
+  width: 100%;
+  min-height: 2.75rem;
+
+  padding: 0.8125rem 0.75rem;
 
   color: #ffffff;
 
@@ -303,7 +316,7 @@ body > ul:first-of-type a {
   text-transform: uppercase;
   letter-spacing: 0.07em;
 
-  border-bottom: 0.25rem solid transparent;
+  border-bottom: 0.0625rem solid var(--charcoal);
 
   transition:
     background-color 0.2s ease,
@@ -343,14 +356,14 @@ img,
   max-width: 100%;
   height: auto;
 
-  margin: 1.625rem auto;
+  margin: 1.375rem auto;
 
-  border: 0.1875rem solid var(--black);
+  border: 0.125rem solid var(--black);
   border-radius: 0.5rem;
 
   box-shadow:
-   0.4375rem 0.4375rem 0 var(--red-186),
-   0 0.625rem 1.5rem rgba(0, 0, 0, 0.2);
+   0.25rem 0.25rem 0 var(--red-186),
+   0 0.5rem 1.125rem rgba(0, 0, 0, 0.18);
 }
 
 
@@ -407,81 +420,6 @@ hr {
   color: #ffffff;
 }
 
-
-/* --------------------------------------------------
-   Mobile layout
--------------------------------------------------- */
-
-@media (max-width: 600px) {
-  body {
-    padding: 1.25rem;
-    font-size: 1rem;
-    box-shadow: none;
-  }
-
-  h1 {
-    margin: -1.25rem -1.25rem 0;
-    padding: 1.875rem 1.125rem 1.375rem;
-
-    font-size: clamp(2.25rem, 10vw, 2.75rem);
-  }
-
-  nav,
-  body > ul:first-of-type {
-    margin: 0 -1.25rem 1.75rem;
-  }
-
-  nav,
-  nav ul,
-  body > ul:first-of-type {
-    flex-direction: column;
-  }
-
-  nav li,
-  body > ul:first-of-type li {
-    width: 100%;
-  }
-
-  nav a,
-  body > ul:first-of-type a {
-    width: 100%;
-    padding: 0.8125rem 0.75rem;
-
-    border-bottom: 1px solid var(--charcoal);
-  }
-
-  h2 {
-    margin-top: 2.125rem;
-    font-size: 1.5rem;
-  }
-
-  h3 {
-    font-size: 1.25rem;
-  }
-
-  img,
-  .pdf-link-image,
-  .spotify-link-image,
-  .linked-image {
-    width: 100%;
-    max-width: 100%;
-
-    margin: 1.375rem auto;
-
-    border-width: 2px;
-
-    box-shadow:
-      4px 4px 0 var(--red-186),
-      0 8px 18px rgba(0, 0, 0, 0.18);
-  }
-  .interest-grid {
-  flex-direction: column;
-  }
-    .interest-item {
-    width: 100%;
-  }
-}
-
 main {
   flex: 1;
   width: 100%;
@@ -518,6 +456,92 @@ footer {
 }
 
 /* --------------------------------------------------
+   Tablet and desktop layout
+-------------------------------------------------- */
+
+@media (min-width: 43.75rem) {
+  body {
+    width: min(94vw, 56rem);
+    padding: 2rem;
+
+    font-size: 1.0625rem;
+
+    box-shadow:
+      0 0 1.875rem rgba(0, 0, 0, 0.65);
+  }
+
+  h1 {
+    margin: -2rem -2rem 0;
+    padding: 2.375rem 1.75rem 1.75rem;
+
+    font-size: clamp(3rem, 8vw, 3.5rem);
+  }
+
+  h2 {
+    margin-top: 2.625rem;
+    font-size: 2rem;
+  }
+
+  h3 {
+    font-size: 1.45rem;
+  }
+
+  nav,
+  body > ul:first-of-type {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    margin: 0 -2rem 2.125rem;
+  }
+
+  nav ul,
+  body > ul:first-of-type {
+    flex-direction: row;
+    width: auto;
+  }
+
+  nav li,
+  body > ul:first-of-type li {
+    width: auto;
+  }
+
+  nav a,
+  body > ul:first-of-type a {
+    width: auto;
+    min-height: 0;
+    padding: 0.9375rem 1.375rem;
+
+    border-bottom:
+      0.25rem solid transparent;
+  }
+
+  img,
+  .pdf-link-image,
+  .spotify-link-image,
+  .linked-image {
+    margin: 1.625rem auto;
+
+    border-width: 0.1875rem;
+
+    box-shadow:
+      0.4375rem 0.4375rem 0 var(--red-186),
+      0 0.625rem 1.5rem rgba(0, 0, 0, 0.2);
+  }
+
+  .interest-grid {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .interest-item {
+    flex: 1 1 15.625rem;
+    width: auto;
+  }
+}
+
+/* --------------------------------------------------
    Curriculum Vitae
 -------------------------------------------------- */
 
@@ -529,7 +553,7 @@ body.cv-view {
   margin: 0;
   padding: 0;
 
-  background-color: var(--page-background);
+  background-color: var(--surface);
   color: var(--black);
 
   font-family: var(--cv-body-font);
@@ -542,21 +566,21 @@ body.cv-view {
 
 .cv-view nav,
 .cv-view > ul:first-of-type {
-  margin: 0 0 2.125rem;
+  margin: 0;
 }
 
 .cv-view .cv-page {
   width: 100%;
   max-width: none;
   margin: 0;
-  padding: 3rem 1.25rem;
+  padding: 0;
 }
 
 .cv-sheet {
   width: min(100%, 8.5in);
-  min-height: 11in;
+  min-height: 0;
   margin: 0 auto;
-  padding: 0.7in 0.75in;
+  padding: 1.5rem 1.0rem;
 
   background-color: var(--surface);
   color: var(--black);
@@ -566,7 +590,7 @@ body.cv-view {
   font-weight: 300;
   line-height: 1.1;
 
-  box-shadow: 0 0.3rem 1.4rem rgba(0, 0, 0, 0.25);
+  box-shadow: none;
 }
 
 
@@ -646,7 +670,7 @@ body.cv-view {
   letter-spacing: normal;
 
   border: 0;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 0.0625rem solid var(--border);
 
   break-after: avoid;
 }
@@ -680,7 +704,7 @@ body.cv-view {
 /* CV body copy */
 
 .cv-sheet .cv-paragraph {
-  margin: 0.15rem 0 0.3rem;
+  margin: 0;
 
   color: var(--black);
 
@@ -701,7 +725,7 @@ body.cv-view {
 }
 
 /*
- * Google Docs paragraph indentation
+ * CV indentation: 50% mobile default
  */
 
 .cv-sheet .cv-paragraph,
@@ -710,20 +734,19 @@ body.cv-view {
 .cv-sheet .cv-entry-subtitle,
 .cv-sheet .cv-minor-heading {
   margin-inline-start:
-    var(--cv-indent-start, 0pt);
+    calc(var(--cv-indent-start, 0pt) * 0.5);
 
   margin-inline-end:
-    var(--cv-indent-end, 0pt);
+    calc(var(--cv-indent-end, 0pt) * 0.5);
 
   text-indent:
-    var(--cv-text-indent, 0pt);
+    calc(var(--cv-text-indent, 0pt) * 0.5);
 }
-
 
 /* CV lists */
 
 .cv-sheet .cv-list {
-  margin: 0.25rem 0 0.55rem;
+  margin: 0;
   padding: 0;
 
   color: var(--black);
@@ -735,9 +758,9 @@ body.cv-view {
 }
 
 .cv-sheet .cv-list li {
-  margin-block: 0.12rem;
+  margin-block: 0;
   margin-inline-start:
-    var(--cv-list-indent, 1.35rem);
+    calc(var(--cv-list-indent, 1.35rem) * 0.5);
 
   padding-inline-start: 0.12rem;
 }
@@ -824,7 +847,7 @@ body.cv-view {
 /* CV horizontal rules */
 
 .cv-sheet .cv-horizontal-rule {
-  height: 1px;
+  height: 0.0625rem;
   margin: 0.75rem 0;
 
   background: var(--border);
@@ -850,44 +873,119 @@ body.cv-view {
 }
 
 
-/* CV mobile presentation */
+/* CV tablet and desktop presentation */
 
-@media (max-width: 700px) {
+@media (min-width: 43.75rem) {
   body.cv-view {
-    background-color: var(--surface);
+    background-color: var(--page-background);
   }
 
   .cv-view .cv-page {
-    padding: 0;
+    padding: 3rem 1.25rem;
   }
 
   .cv-sheet {
-    min-height: 0;
-    padding: 2rem 1.25rem;
+    min-height: 11in;
+    padding: 0.7in 0.75in;
 
-    box-shadow: none;
+    box-shadow:
+      0 0.3rem 1.4rem rgba(0, 0, 0, 0.25);
+  }
+
+  .cv-view nav,
+  .cv-view > ul:first-of-type {
+    margin: 0 0 2.125rem;
+  }
+
+    .cv-sheet .cv-paragraph,
+  .cv-sheet .cv-section-title,
+  .cv-sheet .cv-entry-title,
+  .cv-sheet .cv-entry-subtitle,
+  .cv-sheet .cv-minor-heading {
+    margin-inline-start:
+      calc(var(--cv-indent-start, 0pt) * 0.75);
+
+    margin-inline-end:
+      calc(var(--cv-indent-end, 0pt) * 0.75);
+
+    text-indent:
+      calc(var(--cv-text-indent, 0pt) * 0.75);
+  }
+
+  .cv-sheet .cv-list li {
+    margin-inline-start:
+      calc(var(--cv-list-indent, 1.35rem) * 0.75);
   }
 
   .cv-updated {
-    padding: 0 1.25rem 1.5rem;
+    padding: 0;
   }
 }
 
-@media (max-width: 520px) {
-  .cv-sheet .cv-table,
-  .cv-sheet .cv-table tbody,
-  .cv-sheet .cv-table tr,
+/* Full CV indentation on desktop */
+
+@media (min-width: 64rem) {
+  .cv-sheet .cv-paragraph,
+  .cv-sheet .cv-section-title,
+  .cv-sheet .cv-entry-title,
+  .cv-sheet .cv-entry-subtitle,
+  .cv-sheet .cv-minor-heading {
+    margin-inline-start:
+      var(--cv-indent-start, 0pt);
+
+    margin-inline-end:
+      var(--cv-indent-end, 0pt);
+
+    text-indent:
+      var(--cv-text-indent, 0pt);
+  }
+
+  .cv-sheet .cv-list li {
+    margin-inline-start:
+      var(--cv-list-indent, 1.35rem);
+  }
+}
+
+/* CV tables default to a stacked mobile layout */
+
+.cv-sheet .cv-table,
+.cv-sheet .cv-table tbody,
+.cv-sheet .cv-table tr,
+.cv-sheet .cv-table td {
+  display: block;
+  width: 100%;
+}
+
+.cv-sheet .cv-table td:last-child {
+  margin-top: 0.08rem;
+  color: var(--muted-text);
+  text-align: left;
+}
+
+/* Restore the table layout on wider screens */
+
+@media (min-width: 32.5rem) {
+  .cv-sheet .cv-table {
+    display: table;
+  }
+
+  .cv-sheet .cv-table tbody {
+    display: table-row-group;
+  }
+
+  .cv-sheet .cv-table tr {
+    display: table-row;
+  }
+
   .cv-sheet .cv-table td {
-    display: block;
-    width: 100%;
+    display: table-cell;
+    width: auto;
   }
 
   .cv-sheet .cv-table td:last-child {
-    margin-top: 0.08rem;
-
-    color: var(--muted-text);
-
-    text-align: left;
+    margin-top: 0;
+    color: var(--black);
+    text-align: right;
   }
 }
 
@@ -923,6 +1021,26 @@ body.cv-view {
     padding: 0;
 
     box-shadow: none;
+  }
+
+  .cv-sheet .cv-paragraph,
+  .cv-sheet .cv-section-title,
+  .cv-sheet .cv-entry-title,
+  .cv-sheet .cv-entry-subtitle,
+  .cv-sheet .cv-minor-heading {
+    margin-inline-start:
+      var(--cv-indent-start, 0pt);
+  
+    margin-inline-end:
+      var(--cv-indent-end, 0pt);
+
+    text-indent:
+      var(--cv-text-indent, 0pt);
+  }
+
+  .cv-sheet .cv-list li {
+    margin-inline-start:
+      var(--cv-list-indent, 1.35rem);
   }
 
   .cv-sheet a {

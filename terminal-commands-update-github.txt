@@ -1,0 +1,14 @@
+1.
+git status
+
+2.
+git add .
+
+3.
+git commit -m "Update portfolio"
+
+4.
+git push
+
+5
+git commit -m "Improve mobile CV layout"
