@@ -119,7 +119,7 @@ h1 {
   color: #ffffff;
 
   font-family: var(--display-font);
-  font-size: clamp(2.25rem, 10vw, 2.75rem);
+  font-size: clamp(1.75rem, 8vw, 2.25rem);
   font-weight: 400;
   line-height: 0.95;
 
@@ -366,6 +366,39 @@ img,
    0 0.5rem 1.125rem rgba(0, 0, 0, 0.18);
 }
 
+/* --------------------------------------------------
+   Portfolio photographs and captions
+-------------------------------------------------- */
+
+.portfolio-photo {
+  margin: 1.375rem auto 2rem;
+}
+
+.portfolio-photo img {
+  margin: 0 auto;
+}
+
+.portfolio-photo figcaption {
+  margin-top: 0.625rem;
+
+  color: var(--muted-text);
+
+  font-size: 0.9rem;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.photo-credit {
+  display: block;
+  margin-top: 0.25rem;
+
+  font-size: 0.8rem;
+  font-style: normal;
+}
+
+.portfolio-photo--narrow {
+  max-width: 37.5rem;
+}
 
 /* --------------------------------------------------
    Linked image interaction
@@ -471,10 +504,11 @@ footer {
   }
 
   h1 {
-    margin: -2rem -2rem 0;
+   margin: -2rem -2rem 0;
     padding: 2.375rem 1.75rem 1.75rem;
 
-    font-size: clamp(3rem, 8vw, 3.5rem);
+   font-size: clamp(2rem, 4vw, 2.5rem);
+   white-space: nowrap;
   }
 
   h2 {
