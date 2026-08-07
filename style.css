@@ -101,6 +101,31 @@ body {
   box-shadow: none;
 }
 
+/* --------------------------------------------------
+   Site header
+-------------------------------------------------- */
+
+body > header {
+  margin: -1.25rem -1.25rem 0;
+  padding: 0;
+
+  background-color: var(--black);
+}
+
+body > header img {
+  display: block;
+
+  width: 100%;
+  max-width: none;
+  height: auto;
+
+  margin: 0;
+
+  border: 0;
+  border-radius: 0;
+
+  box-shadow: none;
+}
 
 /* --------------------------------------------------
    Main page title
@@ -501,6 +526,13 @@ footer {
 
     box-shadow:
       0 0 1.875rem rgba(0, 0, 0, 0.65);
+  }
+
+    body > header {
+    margin: -2rem -2rem 0;
+    padding: 0;
+
+    background-color: var(--black);
   }
 
   h1 {
