@@ -1,0 +1,63 @@
+name: Deploy Portfolio to SiteGround
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Configure SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SITEGROUND_SSH_KEY }}
+          SITEGROUND_HOST: ${{ secrets.SITEGROUND_HOST }}
+          SITEGROUND_PORT: ${{ secrets.SITEGROUND_PORT }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/siteground_key
+          chmod 600 ~/.ssh/siteground_key
+
+          ssh-keyscan -p "$SITEGROUND_PORT" "$SITEGROUND_HOST" >> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Verify SiteGround connection
+        env:
+          SITEGROUND_HOST: ${{ secrets.SITEGROUND_HOST }}
+          SITEGROUND_USER: ${{ secrets.SITEGROUND_USER }}
+          SITEGROUND_PORT: ${{ secrets.SITEGROUND_PORT }}
+        run: |
+          ssh \
+            -i ~/.ssh/siteground_key \
+            -p "$SITEGROUND_PORT" \
+            "$SITEGROUND_USER@$SITEGROUND_HOST" \
+            "echo 'SiteGround connection successful'"
+
+      - name: Upload portfolio files
+        env:
+          SITEGROUND_HOST: ${{ secrets.SITEGROUND_HOST }}
+          SITEGROUND_USER: ${{ secrets.SITEGROUND_USER }}
+          SITEGROUND_PORT: ${{ secrets.SITEGROUND_PORT }}
+        run: |
+          DEST="/home/$SITEGROUND_USER/www/p1sportsmedia.com/public_html/portfolio"
+
+          scp \
+            -i ~/.ssh/siteground_key \
+            -P "$SITEGROUND_PORT" \
+            index.html \
+            academics.html \
+            media-sports.html \
+            cv.html \
+            style.css \
+            "$SITEGROUND_USER@$SITEGROUND_HOST:$DEST/"
+
+          scp \
+            -i ~/.ssh/siteground_key \
+            -P "$SITEGROUND_PORT" \
+            -r media \
+            "$SITEGROUND_USER@$SITEGROUND_HOST:$DEST/"
