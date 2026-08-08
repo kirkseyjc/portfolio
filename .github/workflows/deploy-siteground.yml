@@ -29,15 +29,84 @@ jobs:
           cp -R media/. deploy/media/
 
       - name: Deploy portfolio to SiteGround
-        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
-        with:
-          server: ${{ secrets.SITEGROUND_FTP_HOST }}
-          username: ${{ secrets.SITEGROUND_FTP_USER }}
-          password: ${{ secrets.SITEGROUND_FTP_PASSWORD }}
-          port: ${{ secrets.SITEGROUND_FTP_PORT }}
-          protocol: ftps
-          security: loose
-          local-dir: ./deploy/
-          server-dir: ./
-          log-level: standard
-          timeout: 60000
+        env:
+          FTP_HOST: ${{ secrets.SITEGROUND_FTP_HOST }}
+          FTP_USER: ${{ secrets.SITEGROUND_FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.SITEGROUND_FTP_PASSWORD }}
+          FTP_PORT: ${{ secrets.SITEGROUND_FTP_PORT }}
+        run: |
+          python3 <<'PY'
+          import ftplib
+          import os
+          import ssl
+          from pathlib import Path
+
+          host = os.environ["FTP_HOST"]
+          user = os.environ["FTP_USER"]
+          password = os.environ["FTP_PASSWORD"]
+          port = int(os.environ["FTP_PORT"])
+
+          # Verify the certificate chain, but allow SiteGround's
+          # known hostname mismatch on the FTP endpoint.
+          context = ssl.create_default_context()
+          context.check_hostname = False
+
+          print(f"Connecting to {host}:{port}...")
+
+          ftp = ftplib.FTP_TLS(context=context)
+          ftp.connect(host, port, timeout=30)
+          ftp.login(user, password)
+          ftp.prot_p()
+          ftp.set_pasv(True)
+
+          root = ftp.pwd()
+          print(f"Connected. FTP account root: {root}")
+
+          local_root = Path("deploy")
+
+          def ensure_directory(parts):
+              ftp.cwd(root)
+
+              for part in parts:
+                  if not part or part == ".":
+                      continue
+
+                  try:
+                      ftp.cwd(part)
+                  except ftplib.error_perm:
+                      print(f"Creating directory: {part}")
+                      ftp.mkd(part)
+                      ftp.cwd(part)
+
+          files = sorted(
+              path for path in local_root.rglob("*")
+              if path.is_file()
+          )
+
+          print(f"Uploading {len(files)} files...")
+
+          for local_file in files:
+              relative = local_file.relative_to(local_root)
+
+              ensure_directory(relative.parent.parts)
+
+              print(f"Uploading: {relative.as_posix()}")
+
+              with local_file.open("rb") as source:
+                  ftp.storbinary(
+                      f"STOR {relative.name}",
+                      source
+                  )
+
+          ftp.cwd(root)
+          print("")
+          print("Files now present in FTP root:")
+
+          for item in ftp.nlst():
+              print(f"  {item}")
+
+          ftp.quit()
+
+          print("")
+          print("Deployment completed successfully.")
+          PY
