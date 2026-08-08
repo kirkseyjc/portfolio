@@ -28,85 +28,66 @@ jobs:
 
           cp -R media/. deploy/media/
 
-      - name: Deploy portfolio to SiteGround
+      - name: Configure SiteGround SSH
         env:
-          FTP_HOST: ${{ secrets.SITEGROUND_FTP_HOST }}
-          FTP_USER: ${{ secrets.SITEGROUND_FTP_USER }}
-          FTP_PASSWORD: ${{ secrets.SITEGROUND_FTP_PASSWORD }}
-          FTP_PORT: ${{ secrets.SITEGROUND_FTP_PORT }}
+          SSH_KEY_B64: ${{ secrets.SITEGROUND_SSH_KEY_B64 }}
         run: |
-          python3 <<'PY'
-          import ftplib
-          import os
-          import ssl
-          from pathlib import Path
+          set -euo pipefail
 
-          host = os.environ["FTP_HOST"]
-          user = os.environ["FTP_USER"]
-          password = os.environ["FTP_PASSWORD"]
-          port = int(os.environ["FTP_PORT"])
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
 
-          # Verify the certificate chain, but allow SiteGround's
-          # known hostname mismatch on the FTP endpoint.
-          context = ssl.create_default_context()
-          context.check_hostname = False
+          printf '%s' "$SSH_KEY_B64" | base64 --decode > ~/.ssh/siteground_key
+          chmod 600 ~/.ssh/siteground_key
 
-          print(f"Connecting to {host}:{port}...")
+          echo "Validating deployment key..."
+          ssh-keygen -y -f ~/.ssh/siteground_key > /dev/null
 
-          ftp = ftplib.FTP_TLS(context=context)
-          ftp.connect(host, port, timeout=30)
-          ftp.login(user, password)
-          ftp.prot_p()
-          ftp.set_pasv(True)
+          ssh-keyscan -p 18765 gcam1019.siteground.biz >> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
 
-          root = ftp.pwd()
-          print(f"Connected. FTP account root: {root}")
+      - name: Deploy directly to live portfolio
+        env:
+          SITEGROUND_USER: ${{ secrets.SITEGROUND_USER }}
+        run: |
+          set -euo pipefail
 
-          local_root = Path("deploy")
+          DEST="/home/$SITEGROUND_USER/www/p1sportsmedia.com/public_html/portfolio"
 
-          def ensure_directory(parts):
-              ftp.cwd(root)
+          echo "Deploying directly to:"
+          echo "$DEST"
 
-              for part in parts:
-                  if not part or part == ".":
-                      continue
+          scp \
+            -o IdentitiesOnly=yes \
+            -i ~/.ssh/siteground_key \
+            -P 18765 \
+            deploy/index.html \
+            deploy/academics.html \
+            deploy/media-sports.html \
+            deploy/cv.html \
+            deploy/style.css \
+            "$SITEGROUND_USER@gcam1019.siteground.biz:$DEST/"
 
-                  try:
-                      ftp.cwd(part)
-                  except ftplib.error_perm:
-                      print(f"Creating directory: {part}")
-                      ftp.mkd(part)
-                      ftp.cwd(part)
+          scp \
+            -o IdentitiesOnly=yes \
+            -i ~/.ssh/siteground_key \
+            -P 18765 \
+            -r deploy/media \
+            "$SITEGROUND_USER@gcam1019.siteground.biz:$DEST/"
 
-          files = sorted(
-              path for path in local_root.rglob("*")
-              if path.is_file()
-          )
+      - name: Verify live deployment
+        env:
+          SITEGROUND_USER: ${{ secrets.SITEGROUND_USER }}
+        run: |
+          set -euo pipefail
 
-          print(f"Uploading {len(files)} files...")
+          DEST="/home/$SITEGROUND_USER/www/p1sportsmedia.com/public_html/portfolio"
 
-          for local_file in files:
-              relative = local_file.relative_to(local_root)
-
-              ensure_directory(relative.parent.parts)
-
-              print(f"Uploading: {relative.as_posix()}")
-
-              with local_file.open("rb") as source:
-                  ftp.storbinary(
-                      f"STOR {relative.name}",
-                      source
-                  )
-
-          ftp.cwd(root)
-          print("")
-          print("Files now present in FTP root:")
-
-          for item in ftp.nlst():
-              print(f"  {item}")
-
-          ftp.quit()
-
-          print("")
-          print("Deployment completed successfully.")
-          PY
+          ssh \
+            -o IdentitiesOnly=yes \
+            -i ~/.ssh/siteground_key \
+            -p 18765 \
+            "$SITEGROUND_USER@gcam1019.siteground.biz" \
+            "grep -n 'P1-Sports-Media-banner.png' '$DEST/index.html' &&
+             test -f '$DEST/media/P1-Sports-Media-banner.png' &&
+             echo 'LIVE PORTFOLIO VERIFIED'
