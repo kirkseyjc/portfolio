@@ -11,53 +11,41 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Configure SSH
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SITEGROUND_SSH_KEY }}
-          SITEGROUND_HOST: ${{ secrets.SITEGROUND_HOST }}
-          SITEGROUND_PORT: ${{ secrets.SITEGROUND_PORT }}
+      - name: Create production package
         run: |
-          mkdir -p ~/.ssh
-          chmod 700 ~/.ssh
+          mkdir -p deploy/media
 
-          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/siteground_key
-          chmod 600 ~/.ssh/siteground_key
+          cp index.html deploy/
+          cp academics.html deploy/
+          cp media-sports.html deploy/
+          cp cv.html deploy/
+          cp style.css deploy/
 
-          ssh-keyscan -p "$SITEGROUND_PORT" "$SITEGROUND_HOST" >> ~/.ssh/known_hosts
-          chmod 600 ~/.ssh/known_hosts
+          cp -R media/. deploy/media/
 
-      - name: Verify SiteGround connection
-        env:
-          SITEGROUND_HOST: ${{ secrets.SITEGROUND_HOST }}
-          SITEGROUND_USER: ${{ secrets.SITEGROUND_USER }}
-          SITEGROUND_PORT: ${{ secrets.SITEGROUND_PORT }}
+      - name: Install FTP client
         run: |
-          ssh \
-            -i ~/.ssh/siteground_key \
-            -p "$SITEGROUND_PORT" \
-            "$SITEGROUND_USER@$SITEGROUND_HOST" \
-            "echo 'SiteGround connection successful'"
+          sudo apt-get update
+          sudo apt-get install -y lftp
 
-      - name: Upload portfolio files
+      - name: Deploy portfolio
         env:
-          SITEGROUND_HOST: ${{ secrets.SITEGROUND_HOST }}
-          SITEGROUND_USER: ${{ secrets.SITEGROUND_USER }}
-          SITEGROUND_PORT: ${{ secrets.SITEGROUND_PORT }}
+          FTP_HOST: ${{ secrets.SITEGROUND_FTP_HOST }}
+          FTP_USER: ${{ secrets.SITEGROUND_FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.SITEGROUND_FTP_PASSWORD }}
+          FTP_PORT: ${{ secrets.SITEGROUND_FTP_PORT }}
         run: |
-          DEST="/home/$SITEGROUND_USER/www/p1sportsmedia.com/public_html/portfolio"
+          lftp -u "$FTP_USER","$FTP_PASSWORD" -p "$FTP_PORT" "$FTP_HOST" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ssl:verify-certificate yes
 
-          scp \
-            -i ~/.ssh/siteground_key \
-            -P "$SITEGROUND_PORT" \
-            index.html \
-            academics.html \
-            media-sports.html \
-            cv.html \
-            style.css \
-            "$SITEGROUND_USER@$SITEGROUND_HOST:$DEST/"
+          mirror \
+            --reverse \
+            --verbose \
+            --only-newer \
+            --parallel=4 \
+            deploy/ .
 
-          scp \
-            -i ~/.ssh/siteground_key \
-            -P "$SITEGROUND_PORT" \
-            -r media \
-            "$SITEGROUND_USER@$SITEGROUND_HOST:$DEST/"
+          bye
+          EOF
