@@ -3,9 +3,14 @@ name: Deploy Portfolio to SiteGround
 on:
   workflow_dispatch:
 
+  push:
+    branches:
+      - main
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
 
     steps:
       - name: Check out repository
@@ -23,29 +28,16 @@ jobs:
 
           cp -R media/. deploy/media/
 
-      - name: Install FTP client
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y lftp
-
-      - name: Deploy portfolio
-        env:
-          FTP_HOST: ${{ secrets.SITEGROUND_FTP_HOST }}
-          FTP_USER: ${{ secrets.SITEGROUND_FTP_USER }}
-          FTP_PASSWORD: ${{ secrets.SITEGROUND_FTP_PASSWORD }}
-          FTP_PORT: ${{ secrets.SITEGROUND_FTP_PORT }}
-        run: |
-          lftp -u "$FTP_USER","$FTP_PASSWORD" -p "$FTP_PORT" "$FTP_HOST" <<EOF
-          set ftp:ssl-force true
-          set ftp:ssl-protect-data true
-          set ssl:verify-certificate yes
-
-          mirror \
-            --reverse \
-            --verbose \
-            --only-newer \
-            --parallel=4 \
-            deploy/ .
-
-          bye
-          EOF
+      - name: Deploy portfolio to SiteGround
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ${{ secrets.SITEGROUND_FTP_HOST }}
+          username: ${{ secrets.SITEGROUND_FTP_USER }}
+          password: ${{ secrets.SITEGROUND_FTP_PASSWORD }}
+          port: ${{ secrets.SITEGROUND_FTP_PORT }}
+          protocol: ftps
+          security: loose
+          local-dir: ./deploy/
+          server-dir: ./
+          log-level: standard
+          timeout: 60000
